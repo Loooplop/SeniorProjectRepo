@@ -15,8 +15,6 @@ int main(void)
 			{
 				window.close();
 			}
-
-
 		}
 		window.clear(sf::Color::Red);
 
