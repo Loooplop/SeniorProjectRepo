@@ -1,3 +1,35 @@
 Platformer Design Notes:
 
+1. Loading and Rendering TileMap
+2. Scrolling
+3. Player Intergration
+ a. Loading Player Texture
+ b. Animation (Walking)
 
+
+
+
+
+
+
+
+ Tilemap
+
+ Header
+ TextureFileName
+ SizeX SizeY
+
+ x,y,Collision
+
+
+
+
+ for(int y=0;y<SizeY;y++)
+ {
+  for(int x=0;x<SizeX;x++)
+  {
+   
+
+  }
+ 
+ }
