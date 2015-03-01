@@ -79,9 +79,9 @@ int main(void)
 			}
 			else if (event.key.code == sf::Keyboard::Left)
 			{
-				if (marioTileData[getCellIndex(player.getPosition()-sf::Vector2f(-2,0), data)].z != 1)
+				if (marioTileData[getCellIndex(player.getPosition()+sf::Vector2f(-2,0), data)].z != 1)
 				{
-					player.move(0, -2);
+					player.move(-2, 0);
 				};
 			}
 
