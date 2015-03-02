@@ -44,16 +44,16 @@ int main(void)
 			HorVelocity = sf::Vector2f();
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			{
-				if (!level.isTIleSolid(player.getPosition() + sf::Vector2f(-2, 0)) && !level.isTIleSolid(player.getPosition() + sf::Vector2f(-2, player.getSize().y-1)))
+				if (!level.isTIleSolid(player.getPosition() + sf::Vector2f(-1, 0)) && !level.isTIleSolid(player.getPosition() + sf::Vector2f(-1, player.getSize().y-1)))
 				{
-					HorVelocity = sf::Vector2f(-2, 0);
+					HorVelocity = sf::Vector2f(-1, 0);
 				};
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			{
-				if (!level.isTIleSolid(player.getPosition() + sf::Vector2f(player.getSize().x + 2, 0)) && !level.isTIleSolid(player.getPosition() + sf::Vector2f(player.getSize().x + 2, player.getSize().y-1)))
+				if (!level.isTIleSolid(player.getPosition() + sf::Vector2f(player.getSize().x + 1, 0)) && !level.isTIleSolid(player.getPosition() + sf::Vector2f(player.getSize().x + 1, player.getSize().y-1)))
 				{
-					HorVelocity = sf::Vector2f(2, 0);
+					HorVelocity = sf::Vector2f(1, 0);
 				}
 			}
 
