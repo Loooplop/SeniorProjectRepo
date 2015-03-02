@@ -36,7 +36,7 @@ int main(void)
 				{
 					if (isJumping == false)
 					{
-						JunpVelocity = sf::Vector2f(0, -16);
+						JunpVelocity = sf::Vector2f(0, -14);
 						isJumping = true;
 					}
 				}
@@ -44,15 +44,21 @@ int main(void)
 			HorVelocity = sf::Vector2f();
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 			{
-				HorVelocity = sf::Vector2f(-2, 0);
+				if (!level.isTIleSolid(player.getPosition() + sf::Vector2f(-2, 0)) && !level.isTIleSolid(player.getPosition() + sf::Vector2f(-2, player.getSize().y-1)))
+				{
+					HorVelocity = sf::Vector2f(-2, 0);
+				};
 			}
 			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 			{
-				HorVelocity = sf::Vector2f(2, 0);
+				if (!level.isTIleSolid(player.getPosition() + sf::Vector2f(player.getSize().x + 2, 0)) && !level.isTIleSolid(player.getPosition() + sf::Vector2f(player.getSize().x + 2, player.getSize().y-1)))
+				{
+					HorVelocity = sf::Vector2f(2, 0);
+				}
 			}
 
 
-			if (!level.isTIleSolid(player.getPosition() + player.getSize()) && !level.isTIleSolid(player.getPosition() + sf::Vector2f(0,player.getSize().y)))
+			if (!level.isTIleSolid(player.getPosition() + player.getSize()) && !level.isTIleSolid(player.getPosition() + sf::Vector2f(0,player.getSize().y-1)))
 			{
 				gravity = sf::Vector2f(0,2);
 			}
