@@ -16,7 +16,16 @@ public:
 	bool isTileSolid(int XPosition, int YPosition);
 	sf::Vector3i getTileData(sf::Vector2i indexPosition);
 	sf::Vector3i getTileData(int XPosition, int YPosition);
-
+	int getTileSize()
+	{
+		return TileMapData.x;
+	}
+	sf::IntRect getTIlePosition(sf::Vector2f indexPosition)
+	{
+		sf::Vector2i CellIndex = sf::Vector2i((int)indexPosition.x / TileMapData.x, (int)indexPosition.y / TileMapData.x);
+		CellIndex *= 25;
+		return sf::IntRect(CellIndex.x, CellIndex.y, CellIndex.x + getTileSize(), CellIndex.y + getTileSize());
+	}
 	sf::Sprite *getTileMapSprite();
 	sf::Texture *getTileMapTexture();
 private:
