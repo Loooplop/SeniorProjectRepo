@@ -5,12 +5,12 @@
 #include <string>
 #include <vector>
 #include "TileMap.h"
-
+#include "PlayerEntity.h"
 int main(void)
 {
 	sf::RenderWindow window = sf::RenderWindow(sf::VideoMode(800, 600), "Mario Replica", sf::Style::Default);
 	window.setFramerateLimit(60);
-	window.setKeyRepeatEnabled(false);
+	//window.setKeyRepeatEnabled(false);
 	TileMap level;
 	sf::RectangleShape player;
 	player.setFillColor(sf::Color::Red);
@@ -19,6 +19,8 @@ int main(void)
 	level.LoadTileData("C:/Users/William/Desktop/MapData.txt");
 	sf::Vector2f Velocity(0, 2);
 	sf::Vector2f Hori(0, 0);
+
+	PlayerEntity Player(0);
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -28,16 +30,10 @@ int main(void)
 			{
 				window.close();
 			};
+			Player.handleInput(event.key.code);
 		}
 		
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
-		{
-			Hori = sf::Vector2f(0.2, 0);
-		}
-		else
-		{
-			
-		}
+		
 
 		Velocity += Hori;
 		if (level.isTIleSolid(player.getPosition() + player.getSize()+(sf::Vector2f(0,Velocity.y))))
@@ -52,9 +48,11 @@ int main(void)
 		}
 
 		player.move(Velocity);
+		Player.Update(sf::Time::Zero, &level);
 			window.clear();
 			level.Draw(&window);
 			window.draw(player);
+			Player.Draw(window);
 			window.display();
 		}
 	return 0;

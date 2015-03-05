@@ -1,11 +1,13 @@
 #include "Entity.h"
 
 
-Entity::Entity()
+Entity::Entity(int EntityID)
 {
+	ID = EntityID;
 }
 
 
 Entity::~Entity()
 {
+
 }
