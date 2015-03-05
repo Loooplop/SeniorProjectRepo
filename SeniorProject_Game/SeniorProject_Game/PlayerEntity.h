@@ -54,7 +54,6 @@ public:
 				Velocity = sf::Vector2f();
 			}
 		}
-
 		position += Velocity;
 		if (!((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomRight) + sf::Vector2f(0, 4)) && !((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomLeft) + sf::Vector2f(0, 4)))
 		{
