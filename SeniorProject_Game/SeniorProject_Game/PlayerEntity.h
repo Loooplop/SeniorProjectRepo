@@ -37,7 +37,7 @@ public:
 		if (Velocity.x > 0)
 		{
 			if (
-				((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(TopRight)) || 
+				((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(TopRight)) && 
 				((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomRight))
 			   )
 			{
@@ -56,24 +56,25 @@ public:
 		}
 
 		position += Velocity;
-		if (!((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomRight) + sf::Vector2f(0, 2)) && !((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomLeft) + sf::Vector2f(0, 2)))
+		if (!((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomRight) + sf::Vector2f(0, 5)) && !((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomLeft) + sf::Vector2f(0, 5)))
 		{
-			position += sf::Vector2f(0, 2);
+			position += sf::Vector2f(0, 5);
 
 		}
 		else
 		{
-			int pos= ((TileMap*)ExternalData)->getTIlePosition(getCornerPosition(BottomRight) ).height;
+			int pos = ((TileMap*)ExternalData)->getTIlePosition(getCornerPosition(BottomRight)).height;
 			int distance = getCornerPosition(BottomRight).y;
-			distance = abs(pos-distance);
-			std::cout << "Within Range" << std::endl;
-			if (distance <= 2)
+			distance = abs(distance-pos);
+			std::cout << distance << std::endl;
+			if (distance <= 5)
 			{
 				std::cout << distance << std::endl;
-				position += sf::Vector2f(0, distance);
+				position += sf::Vector2f(0, distance-1);
 			}
 			else
 			{
+				
 				std::cout << distance << std::endl;
 			}
 		}
