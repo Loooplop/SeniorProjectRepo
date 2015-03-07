@@ -47,14 +47,15 @@ public:
 		else if (Velocity.x < 0)
 		{
 			if (
-				((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(TopLeft)) ||
-				((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomLeft))
+				((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(TopLeft)+Velocity) ||
+				((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomLeft)+Velocity)
 				)
 			{
 				Velocity = sf::Vector2f();
 			}
 		}
 		position += Velocity;
+
 		if (!((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomRight) + sf::Vector2f(0, 4)) && !((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomLeft) + sf::Vector2f(0, 4)))
 		{
 			position += sf::Vector2f(0, 4);
@@ -62,11 +63,9 @@ public:
 		}
 		else
 		{
-			int pos = ((TileMap*)ExternalData)->getTIlePosition(getCornerPosition(BottomRight)).height;
-			int distance = getCornerPosition(BottomRight).y;
-			distance = abs(distance-pos);
-			int DistanceFromBottomRight = abs(getCornerPosition(BottomRight).y - pos);
-			int DistanceFromBottomLeft = abs(getCornerPosition(BottomRight).y - ((TileMap*)ExternalData)->getTIlePosition(getCornerPosition(BottomLeft)).height);
+			int distance = 0;
+			int DistanceFromBottomRight = abs(getCornerPosition(BottomRight).y - ((TileMap*)ExternalData)->getTIlePosition(getCornerPosition(BottomRight)).height);
+			int DistanceFromBottomLeft = abs(getCornerPosition(BottomLeft).y - ((TileMap*)ExternalData)->getTIlePosition(getCornerPosition(BottomLeft)).height);
 			if (DistanceFromBottomLeft < DistanceFromBottomRight)
 			{
 				distance = DistanceFromBottomLeft;
@@ -75,19 +74,9 @@ public:
 			{
 				distance = DistanceFromBottomRight;
 			}
-
-			std::cout << distance << std::endl;
-			if (distance <= 4)
-			{
-				std::cout << distance << std::endl;
-				position += sf::Vector2f(0, distance-1);
-			}
-			else
-			{
-				
-				std::cout << distance << std::endl;
-			}
+			position += sf::Vector2f(0, distance-1);
 		}
+
 		Velocity = sf::Vector2f();
 
 	};
