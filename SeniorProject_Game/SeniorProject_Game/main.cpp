@@ -12,13 +12,7 @@ int main(void)
 	window.setFramerateLimit(60);
 	//window.setKeyRepeatEnabled(false);
 	TileMap level;
-	sf::RectangleShape player;
-	player.setFillColor(sf::Color::Red);
-	player.setSize(sf::Vector2f(10, 10));
-	player.setPosition(500, 0);
 	level.LoadTileData("C:/Users/William/Desktop/MapData.txt");
-	sf::Vector2f Velocity(0, 2);
-	sf::Vector2f Hori(0, 0);
 
 	PlayerEntity Player(0);
 	while (window.isOpen())
@@ -32,26 +26,10 @@ int main(void)
 			};
 			Player.handleInput(event.key.code);
 		}
-		
-		
 
-		Velocity += Hori;
-		if (level.isTIleSolid(player.getPosition() + player.getSize()+(sf::Vector2f(0,Velocity.y))))
-		{
-			sf::IntRect TilePosition= level.getTIlePosition(player.getPosition() + player.getSize() + Velocity);
-
-			Velocity = sf::Vector2f(0, (TilePosition.top - (player.getPosition() + player.getSize()).y));
-		}
-		else
-		{
-			sf::Vector2f();
-		}
-
-		player.move(Velocity);
 		Player.Update(sf::Time::Zero, &level);
 			window.clear();
 			level.Draw(&window);
-			window.draw(player);
 			Player.Draw(window);
 			window.display();
 		}

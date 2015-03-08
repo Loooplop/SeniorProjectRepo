@@ -36,25 +36,55 @@ public:
 	{
 		if (Velocity.x > 0)
 		{
-			if (
-				((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(TopRight)) && 
-				((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomRight))
-			   )
+			if (!((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomRight) + Velocity) && !((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(TopRight) + Velocity))
 			{
-				Velocity = sf::Vector2f();
+				position += Velocity;
+
 			}
+			else
+			{
+				int distance = 0;
+				int DistanceFromBottomRight = abs(((TileMap*)ExternalData)->getTIlePosition(getCornerPosition(BottomRight)).width - getCornerPosition(BottomRight).x);
+				int DistanceFromBottomLeft = abs(((TileMap*)ExternalData)->getTIlePosition(getCornerPosition(TopRight)).width - getCornerPosition(TopRight).x);
+				if (DistanceFromBottomLeft < DistanceFromBottomRight)
+				{
+					distance = DistanceFromBottomLeft;
+				}
+				else
+				{
+					distance = DistanceFromBottomRight;
+				}
+				std::cout << "Velocity" << distance << std::endl;
+				position += sf::Vector2f(distance-1,0);
+			}
+
+
 		}
 		else if (Velocity.x < 0)
 		{
-			if (
-				((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(TopLeft)+Velocity) ||
-				((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomLeft)+Velocity)
-				)
+			if (!((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomLeft) + Velocity) && !((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(TopLeft) + Velocity))
 			{
-				Velocity = sf::Vector2f();
+				position += Velocity;
+
 			}
+			else
+			{
+				int distance = 0;
+				int DistanceFromBottomRight = abs(((TileMap*)ExternalData)->getTIlePosition(getCornerPosition(BottomLeft)).left - getCornerPosition(BottomLeft).x);
+				int DistanceFromBottomLeft = abs(((TileMap*)ExternalData)->getTIlePosition(getCornerPosition(TopLeft)).left - getCornerPosition(TopLeft).x);
+				if (DistanceFromBottomLeft < DistanceFromBottomRight)
+				{
+					distance = DistanceFromBottomLeft;
+				}
+				else
+				{
+					distance = DistanceFromBottomRight;
+				}
+				std::cout << "Velocity" << distance << std::endl;
+				position += sf::Vector2f(distance, 0);
+			}
+
 		}
-		position += Velocity;
 
 		if (!((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomRight) + sf::Vector2f(0, 4)) && !((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomLeft) + sf::Vector2f(0, 4)))
 		{
