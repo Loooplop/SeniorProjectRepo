@@ -24,10 +24,10 @@ public:
 		switch (key)
 		{
 		case sf::Keyboard::Left:
-			Velocity += sf::Vector2f(-3, 0);
+			Velocity = sf::Vector2f(-5, 0);
 			break;
 		case sf::Keyboard::Right:
-			Velocity += sf::Vector2f(3, 0);
+			Velocity = sf::Vector2f(5, 0);
 			break;
 		}
 
@@ -70,9 +70,9 @@ public:
 			else
 			{
 				int distance = 0;
-				int DistanceFromBottomRight = abs(((TileMap*)ExternalData)->getTIlePosition(getCornerPosition(BottomLeft)).left - getCornerPosition(BottomLeft).x);
-				int DistanceFromBottomLeft = abs(((TileMap*)ExternalData)->getTIlePosition(getCornerPosition(TopLeft)).left - getCornerPosition(TopLeft).x);
-				if (DistanceFromBottomLeft < DistanceFromBottomRight)
+				int DistanceFromBottomRight = abs((((TileMap*)ExternalData)->getTIlePosition(getCornerPosition(BottomLeft)).left -getCornerPosition(BottomLeft).x));
+				int DistanceFromBottomLeft = abs((((TileMap*)ExternalData)->getTIlePosition(getCornerPosition(TopLeft)).left - getCornerPosition(TopLeft).x));
+				if (DistanceFromBottomLeft > DistanceFromBottomRight)
 				{
 					distance = DistanceFromBottomLeft;
 				}
@@ -80,8 +80,8 @@ public:
 				{
 					distance = DistanceFromBottomRight;
 				}
-				std::cout << "Velocity" << distance << std::endl;
-				position += sf::Vector2f(distance, 0);
+				std::cout << "Distance: "<<-distance << std::endl;
+				position += sf::Vector2f(-distance+1, 0);
 			}
 
 		}
