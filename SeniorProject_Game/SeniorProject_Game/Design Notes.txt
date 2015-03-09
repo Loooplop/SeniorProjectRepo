@@ -1,15 +1,39 @@
 Platformer Design Notes:
 
-1. Loading and Rendering TileMap
-2. Scrolling
+1. Loading and Rendering TileMap(Done)
+2. Scrolling(Done)
 3. Player Intergration
- a. Loading Player Texture
- b. Animation (Walking)
+ a. Collision With TileMap(Done)
+  a1. Proper Jumping(Done)
+  a2. Jumping Collision Detection(Done)
+ b. Loading Player Texture
+  b1. Animation
+4. Enemy Intergration
+ a. Load Enemy into Map        
+ b. Collision With Map
+ c. Attach Artificial Behavior To Enemy
+  c1. Left_Right
+  c2. Follow Player
+ d. Collision With Player
+ e. Texture and Animation
+5. Game State and Menu Screens
+  a. Intro Screen
+  b. Menu Screen
+  c. Game Screen
+6. Networking
 
 
 
 
+if (Jumping)
+{
+ if(hitBlockUp(CloseDistance+SetVelocityToZero))
+ else(hitBlockDown(CloseDistance+SetVelocityToZero+SetIsJumpingToFalse))
+ else(NoCollision(ContinueJump))
 
+ if(JumpVelocityGreaterThanOrEqualToZero(ApplyGravity))
+
+}
 
 
 
@@ -18,7 +42,12 @@ Platformer Design Notes:
  Header
  TextureFileName
  SizeX SizeY
-
+ (New Possible TileMap Header Features)
+ {
+   SpawnPoint flag?
+   Definition eg (0 = 0,0,1)
+                  Number = XTex,YTex,Flag
+ }
  x,y,Collision
 
 
