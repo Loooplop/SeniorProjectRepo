@@ -92,6 +92,8 @@ public:
 				std::cout << "Velocity" << distance << std::endl;
 				position += sf::Vector2f(distance - 1, 0);
 				behavior = AIBehavior::MovingLeft;
+				isJumping = true;
+				JumpingVelocity = -16.0f;
 			}
 
 
@@ -118,7 +120,13 @@ public:
 				}
 				std::cout << "Distance: " << -distance << std::endl;
 				position += sf::Vector2f(-distance + 1, 0);
-				behavior = AIBehavior::MovingRight;
+				if (((TileMap*)ExternalData)->isTIleSolid(getCornerPosition(BottomLeft) + (Velocity - sf::Vector2f(206,260))))
+				{
+
+					behavior = AIBehavior::MovingRight;
+				}
+				isJumping = true;
+				JumpingVelocity = -16.0f;
 			}
 
 		}
