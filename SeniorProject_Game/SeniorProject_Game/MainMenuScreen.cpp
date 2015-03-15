@@ -10,6 +10,7 @@ MainMenuScreen::MainMenuScreen(Game* pointer)
 	assert(font.loadFromFile("Blazed.ttf")==true);
 	text.setFont(font);
 	text.setScale(3, 3);
+
 	MenuTexts = new std::string[AmountOfChoices];
 	MenuTexts[0] = "Start";
 	MenuTexts[1] = "Help";
