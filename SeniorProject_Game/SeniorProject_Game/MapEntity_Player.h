@@ -16,7 +16,11 @@ public:
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
-			MovementSpeed = 1;
+			MovementSpeed = 5;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		{
+			MovementSpeed = -5;
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
