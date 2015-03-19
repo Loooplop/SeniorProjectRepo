@@ -6,10 +6,31 @@ class MapEntity_Player :
 public:
 	MapEntity_Player();
 	~MapEntity_Player();
-	void handleInput(sf::Keyboard::Key key, bool isPressed)
+	void handleEventInput(sf::Keyboard::Key key, bool isPressed)
 	{
-		velocity = sf::Vector2f(0, 1);
+		
+		velocity = sf::Vector2f(MovementSpeed, gravityConstant);
 	};
+	void handleRealtimeInput()
+	{
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		{
+			MovementSpeed = 1;
+		}
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+		{
+
+			position.y = 50;
+			MovementSpeed = 0;
+		}
+		else
+		{
+			MovementSpeed = 0;
+		}
+
+		velocity = sf::Vector2f(MovementSpeed, gravityConstant);
+	}
 	void Update(sf::Time delta)
 	{
 		CollisionWithTileMap();

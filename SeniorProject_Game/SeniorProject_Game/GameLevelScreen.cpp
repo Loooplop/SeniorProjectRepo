@@ -24,10 +24,11 @@ void GameLevelScreen::handleInput(sf::Keyboard::Key key, bool IsPressed)
 	{
 		gamepointer->SetScreen(TitleScreen);
 	}
-	player.handleInput(key, IsPressed);
+	player.handleEventInput(key, IsPressed);
 };
 void GameLevelScreen::Update(sf::Time delta)
 {
+	player.handleRealtimeInput();
 	player.Update(sf::Time::Zero);
 };
 void GameLevelScreen::Render(sf::RenderWindow &RenderTarget)

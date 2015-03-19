@@ -8,7 +8,7 @@ MapEntity_Player::MapEntity_Player()
 	rect.setFillColor(sf::Color::Red);
 	cwidth = 10;
 	cheight = 10;
-
+	gravityConstant = 5;
 }
 
 
