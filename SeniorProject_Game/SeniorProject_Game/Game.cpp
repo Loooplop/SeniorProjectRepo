@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "MainMenuScreen.h"
 #include "GameLevelScreen.h"
-
+#include <iostream>
 Game::~Game()
 {
 }
@@ -23,7 +23,6 @@ void Game::run()
 			case sf::Event::KeyPressed:
 				if (event.key.code == sf::Keyboard::Escape)
 					gameWindow.close();
-
 				currentScreen->handleInput(event.key.code, true);
 				break;
 			case sf::Event::KeyReleased:
@@ -50,9 +49,11 @@ void Game::run()
 		switch (ScreenType)
 		{
 		case TitleScreen:
+			std::cout << "Switching to Main Menu Screen" << std::endl;
 			currentScreen = new MainMenuScreen(this);
 			break;
 		case GameScreen:
+			std::cout << "Switching to Game Screen" << std::endl;
 			currentScreen = new GameLevelScreen(this);
 			break;
 		}

@@ -10,6 +10,7 @@ public:
 	Game(sf::VideoMode mode, char* WindowTitle,int style) :gameWindow(mode,WindowTitle,style)
 	{
 		SetScreen(TitleScreen);
+		gameWindow.setFramerateLimit(60);
 	};
 	~Game();
 	void run();

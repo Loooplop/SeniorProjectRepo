@@ -6,8 +6,12 @@ GameLevelScreen::GameLevelScreen()
 
 }
 GameLevelScreen::GameLevelScreen(Game *pointer)
-{
+{ 
 	gamepointer = pointer;
+	tilemap.LoadTileSet(25, "NewTileSet.png", "TileSet1Prop.tl");
+	tilemap.LoadMapData("NewMarioFixed1.txt");
+	player.setTileMap(&tilemap);
+
 };
 
 GameLevelScreen::~GameLevelScreen()
@@ -20,18 +24,17 @@ void GameLevelScreen::handleInput(sf::Keyboard::Key key, bool IsPressed)
 	{
 		gamepointer->SetScreen(TitleScreen);
 	}
+	player.handleInput(key, IsPressed);
 };
 void GameLevelScreen::Update(sf::Time delta)
 {
-
+	player.Update(sf::Time::Zero);
 };
 void GameLevelScreen::Render(sf::RenderWindow &RenderTarget)
 {
 	RenderTarget.clear();
-	sf::RectangleShape rect;
-	rect.setSize(sf::Vector2f(10, 10));
-	rect.setFillColor(sf::Color::Red);
-	rect.setPosition(300, 300);
-	RenderTarget.draw(rect);
+	tilemap.Draw(RenderTarget);
+	player.Render(RenderTarget);
+
 	RenderTarget.display();
 };

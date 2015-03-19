@@ -1,7 +1,7 @@
 #pragma once
 #include "Game.h"
 #include "Screen.h"
-
+#include "MapEntity_Player.h"
 class Game;
 class GameLevelScreen :
 	public Screen
@@ -19,6 +19,8 @@ public:
 
 private:
 	Game *gamepointer;
-	//Tilemap tilemap;
+	TileMap tilemap;
+	MapEntity_Player player;
+
 };
 
