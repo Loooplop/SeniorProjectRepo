@@ -20,7 +20,23 @@ public:
 
 	void CollisionWithTileMap()
 	{
-		sf::Vector2f dest = position + velocity;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		sf::Vector2f dest = position + sf::Vector2f(0,velocity.y);
 		sf::Vector2f TopRightCorner(dest+sf::Vector2f(cwidth,0));
 		sf::Vector2f BottomRightCorner(dest+sf::Vector2f(cwidth,cheight));
 		sf::Vector2f TopLeftCorner(dest);
@@ -31,33 +47,40 @@ public:
 		Tile *BottomLeft = tilemap->getTileDataFromPosition(BottomLeftCorner);
 		Tile *BottomRight = tilemap->getTileDataFromPosition(BottomRightCorner);
 		//PANICNUMBER((bool)(BottomLeft->getType() == Tile::SOLID))
-			if (velocity.y > 0)
+
+
+		
+		if (isFalling)
+		{
+			if ((BottomLeft->getType() == Tile::TileType::SOLID) || (BottomRight->getType() == Tile::TileType::SOLID))
 			{
-				if (!(BottomLeft->getType() == Tile::TileType::SOLID) && !(BottomRight->getType() == Tile::TileType::SOLID))
+				isFalling = false;
+				int TileUpperY = (BottomRightCorner.y / tilemap->getTileSize())*tilemap->getTileSize();
+				int penetration = dest.y - TileUpperY;
+				if (penetration == 1)
 				{
-					isFalling = true;
-					position.y = dest.y;
-					PANIC
+					position.y = dest.y - cheight - penetration;
 				}
 				else
 				{
-					if (isFalling)
-					{
-						isFalling = false;
-						int TileUpperY = (BottomRightCorner.y / tilemap->getTileSize())*tilemap->getTileSize();
-						int penetration = dest.y - TileUpperY;
-						if (penetration == 1)
-						{
-
-						}
-						else
-						{
-							position.y = dest.y-cheight-penetration-1;
-						}
-					}
-
+					position.y = dest.y - cheight - penetration - 2;
 				}
 			}
+
+			else
+			{
+				position.y = dest.y;
+			}
+		}
+		else
+		{
+			if ((!BottomLeft->getType() == Tile::TileType::SOLID) && (!BottomRight->getType() == Tile::TileType::SOLID))
+			{
+				isFalling = true;
+				position.y = dest.y;
+			}
+		}
+			
 		position.x = dest.x;
 	}
 protected:

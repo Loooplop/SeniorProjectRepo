@@ -9,7 +9,7 @@ public:
 	void handleEventInput(sf::Keyboard::Key key, bool isPressed)
 	{
 		
-		velocity = sf::Vector2f(MovementSpeed, gravityConstant);
+		
 	};
 	void handleRealtimeInput()
 	{
@@ -27,13 +27,24 @@ public:
 
 			position.y = 50;
 			MovementSpeed = 0;
+			isFalling = true;
 		}
 		else
 		{
 			MovementSpeed = 0;
 		}
 
-		velocity = sf::Vector2f(MovementSpeed, gravityConstant);
+		if (isFalling)
+		{
+			PANICNUMBER(2)
+			velocity = sf::Vector2f(MovementSpeed, gravityConstant);
+		}
+		else
+		{
+			PANICNUMBER(1)
+			velocity = sf::Vector2f(MovementSpeed, 0);
+		};
+		position.x += 0.5f;
 	}
 	void Update(sf::Time delta)
 	{

@@ -9,6 +9,7 @@ MapEntity_Player::MapEntity_Player()
 	cwidth = 10;
 	cheight = 10;
 	gravityConstant = 4;
+	isFalling = true;
 }
 
 
