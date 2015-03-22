@@ -8,8 +8,14 @@ MapEntity_Player::MapEntity_Player()
 	rect.setFillColor(sf::Color::Red);
 	cwidth = 10;
 	cheight = 10;
-	gravityConstant = 4;
+	gravityAcceleration = 4.0f;
 	isFalling = true;
+	isJumping = false;
+	initialJumpImpulse = -16.0f;
+	currentJumpingMovement = 0.0f;
+	JumpSlowingSpeed = 2.0f;
+	MaximumSpeed = 20.0f;
+
 }
 
 

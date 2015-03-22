@@ -20,51 +20,26 @@ public:
 
 	void CollisionWithTileMap()
 	{
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		sf::Vector2f dest = position + sf::Vector2f(0,velocity.y);
 		sf::Vector2f TopRightCorner(dest+sf::Vector2f(cwidth,0));
-		sf::Vector2f BottomRightCorner(dest+sf::Vector2f(cwidth,cheight));
+		sf::Vector2f BottomRightCorner(dest+sf::Vector2f(cwidth,cheight+1));
 		sf::Vector2f TopLeftCorner(dest);
-		sf::Vector2f BottomLeftCorner(dest + sf::Vector2f(0, cheight));
+		sf::Vector2f BottomLeftCorner(dest + sf::Vector2f(0, cheight+1));
 
 		Tile *TopLeft = tilemap->getTileDataFromPosition(TopLeftCorner);
 		Tile *TopRight = tilemap->getTileDataFromPosition(TopRightCorner);
 		Tile *BottomLeft = tilemap->getTileDataFromPosition(BottomLeftCorner);
 		Tile *BottomRight = tilemap->getTileDataFromPosition(BottomRightCorner);
-		//PANICNUMBER((bool)(BottomLeft->getType() == Tile::SOLID))
 
 
 		
 		if (isFalling)
 		{
-			if ((BottomLeft->getType() == Tile::TileType::SOLID) || (BottomRight->getType() == Tile::TileType::SOLID))
+			if ((BottomLeft->getType() == Tile::TileType::SOLID) || (BottomRight->getType() == Tile::TileType::SOLID) || (BottomLeft->getType() == Tile::TileType::SOLID) && (BottomRight->getType() == Tile::TileType::SOLID))
 			{
 				isFalling = false;
 				int TileUpperY = (BottomRightCorner.y / tilemap->getTileSize())*tilemap->getTileSize();
-				int penetration = dest.y - TileUpperY;
-				if (penetration == 1)
-				{
-					position.y = dest.y - cheight - penetration;
-				}
-				else
-				{
-					position.y = dest.y - cheight - penetration - 2;
-				}
+				position.y = TileUpperY-cheight;
 			}
 
 			else
@@ -80,8 +55,7 @@ public:
 				position.y = dest.y;
 			}
 		}
-			
-		position.x = dest.x;
+		position.x += MovementSpeed;
 	}
 protected:
 	TileMap *tilemap;
@@ -92,15 +66,17 @@ protected:
 	//Movement
 	sf::Vector2f currentMovement;
 	float currentJumpingMovement;
+	float initialJumpImpulse;
 	//EntityDimension
 	float cwidth;
 	float cheight;
 	//Speed
 	float MaximumSpeed;
 	float MovementSpeed;
-	float gravityConstant;
+	float currentGravity;
+	float gravityAcceleration;
 	float JumpImpulse;
-	float JumpSlowing;
+	float JumpSlowingSpeed;
 	//Boolean
 	bool isJumping;
 	bool isFalling;

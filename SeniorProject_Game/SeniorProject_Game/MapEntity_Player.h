@@ -14,37 +14,56 @@ public:
 	void handleRealtimeInput()
 	{
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)||sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
 			MovementSpeed = 5;
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
 			MovementSpeed = -5;
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		{
-
-			position.y = 50;
-			MovementSpeed = 0;
-			isFalling = true;
-		}
 		else
 		{
 			MovementSpeed = 0;
 		}
 
-		if (isFalling)
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
 		{
-			PANICNUMBER(2)
-			velocity = sf::Vector2f(MovementSpeed, gravityConstant);
+
+			if (!isJumping&&!isFalling)
+			{
+				isJumping = true;
+				isFalling = false;
+				currentJumpingMovement = initialJumpImpulse;
+			}
+		}
+
+
+		if (isJumping)
+		{
+			if (currentJumpingMovement >= 0)
+			{
+				isJumping = false;
+				isFalling = true;
+				currentJumpingMovement = 0.0f;
+			}
+			else
+			{
+				currentJumpingMovement += JumpSlowingSpeed;
+			}
+			velocity.y = currentJumpingMovement;
+
 		}
 		else
 		{
-			PANICNUMBER(1)
-			velocity = sf::Vector2f(MovementSpeed, 0);
-		};
-		position.x += 0.5f;
+
+			if (isFalling)
+			{
+				velocity.y = gravityAcceleration;
+			}
+		}
+		velocity.x = std::min(velocity.x, MaximumSpeed);
+		velocity.y = std::min(velocity.y, MaximumSpeed);
 	}
 	void Update(sf::Time delta)
 	{
