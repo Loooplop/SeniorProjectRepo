@@ -11,6 +11,7 @@ public:
 	{
 		SetScreen(TitleScreen);
 		gameWindow.setFramerateLimit(60);
+		view.setSize(gameWindow.getSize().x, gameWindow.getSize().y);
 	};
 	~Game();
 	void run();
@@ -19,4 +20,5 @@ public:
 private:
 	Screen *currentScreen;
 	sf::RenderWindow gameWindow;
+	sf::View view;
 };

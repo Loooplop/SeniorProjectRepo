@@ -19,6 +19,11 @@ public:
 
 		return tileset.getTile(MapData[TileY*TilesX + TileX]);
 	}
+	Tile *getTileFromTileCoordinates(int X, int Y)
+	{
+
+		return tileset.getTile(MapData[Y*TilesX + X]);
+	}
 private:
 	int TilesX, TilesY;
 	TileSet tileset;

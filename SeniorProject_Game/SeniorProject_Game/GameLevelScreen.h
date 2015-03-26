@@ -14,13 +14,17 @@ public:
 	void handleInput(sf::Keyboard::Key key, bool IsPressed);
 	void Update(sf::Time delta);
 	void Render(sf::RenderWindow &RenderTarget);
-
+	sf::Vector2f getCenter()
+	{
+		return player.getPosition();
+	};
 	 
 
 private:
 	Game *gamepointer;
 	TileMap tilemap;
 	MapEntity_Player player;
-
+	sf::Text text;
+	sf::Font font;
 };
 

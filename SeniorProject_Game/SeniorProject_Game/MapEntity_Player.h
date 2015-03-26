@@ -8,58 +8,53 @@ public:
 	~MapEntity_Player();
 	void handleEventInput(sf::Keyboard::Key key, bool isPressed)
 	{
-		
+		if (key == sf::Keyboard::Space&&isPressed == true)
+		{
+			if (!isJumping&&isGrounded)
+			{
+				isJumping = true;
+				currentJumpingMovement = initialJumpImpulse;
+			}
+		}
 		
 	};
 	void handleRealtimeInput()
 	{
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)||sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
-			MovementSpeed = 5;
+			velocity.x = -MovementSpeed;
 		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) || sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
-			MovementSpeed = -5;
-		}
-		else
-		{
-			MovementSpeed = 0;
-		}
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
-		{
-
-			if (!isJumping&&!isFalling)
-			{
-				isJumping = true;
-				isFalling = false;
-				currentJumpingMovement = initialJumpImpulse;
-			}
-		}
-
-
-		if (isJumping)
-		{
-			if (currentJumpingMovement >= 0)
-			{
-				isJumping = false;
-				isFalling = true;
-				currentJumpingMovement = 0.0f;
-			}
-			else
-			{
-				currentJumpingMovement += JumpSlowingSpeed;
-			}
-			velocity.y = currentJumpingMovement;
-
+			velocity.x = MovementSpeed;
 		}
 		else
 		{
-
-			if (isFalling)
+			velocity.x = 0;
+		}
+	}
+	void calculateNextPosition(sf::Time delta)
+	{
+		if (!isGrounded||isFalling)
+		{
+			velocity.y = gravityAcceleration;
+		}
+		else
+		{
+			if (isJumping)
 			{
-				velocity.y = gravityAcceleration;
+				if (currentJumpingMovement >= 0)
+				{
+					isJumping = false;
+					currentJumpingMovement = 0;
+				}
+				else
+				{
+					currentJumpingMovement += JumpSlowingSpeed;
+					velocity.y = currentJumpingMovement;
+				}
+				
+
 			}
 		}
 		velocity.x = std::min(velocity.x, MaximumSpeed);
@@ -67,14 +62,22 @@ public:
 	}
 	void Update(sf::Time delta)
 	{
+		
+		calculateNextPosition(delta);
 		CollisionWithTileMap();
+		position.x = temp.x;
+		position.y = temp.y;
 	};
 	void Render(sf::RenderWindow &RenderTarget)
 	{
 		rect.setPosition(position);
 		RenderTarget.draw(rect);
 	};
+	sf::Vector2f getPosition()
+	{
+		return position;
+	}
 	sf::RectangleShape rect;
-
+	Animation animation;
 };
 

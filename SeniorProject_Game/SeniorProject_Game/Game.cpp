@@ -37,6 +37,8 @@ void Game::run()
 
 		}
 		currentScreen->Update(delta);
+		view.setCenter(currentScreen->getCenter());
+		gameWindow.setView(view);
 		currentScreen->Render(gameWindow);
 	}
 };

@@ -20,49 +20,123 @@ public:
 
 	void CollisionWithTileMap()
 	{
-		sf::Vector2f dest = position + sf::Vector2f(0,velocity.y);
-		sf::Vector2f TopRightCorner(dest+sf::Vector2f(cwidth,0));
-		sf::Vector2f BottomRightCorner(dest+sf::Vector2f(cwidth,cheight+1));
-		sf::Vector2f TopLeftCorner(dest);
-		sf::Vector2f BottomLeftCorner(dest + sf::Vector2f(0, cheight+1));
+		int currRow = (int)position.x / tilemap->getTileSize();
+		int currCol = (int)position.y / tilemap->getTileSize();
+		temp = position;
+		sf::Vector2f dest = position + velocity;
+		Tile::TileType TopLeft;
+		Tile::TileType TopRight;
+		Tile::TileType BottomLeft;
+		Tile::TileType BottomRight;
+		getCornerTileValues(position.x, dest.y, TopLeft, TopRight, BottomLeft, BottomRight);
 
-		Tile *TopLeft = tilemap->getTileDataFromPosition(TopLeftCorner);
-		Tile *TopRight = tilemap->getTileDataFromPosition(TopRightCorner);
-		Tile *BottomLeft = tilemap->getTileDataFromPosition(BottomLeftCorner);
-		Tile *BottomRight = tilemap->getTileDataFromPosition(BottomRightCorner);
-
-
-		
-		if (isFalling)
+		if (velocity.y > 0)
 		{
-			if ((BottomLeft->getType() == Tile::TileType::SOLID) || (BottomRight->getType() == Tile::TileType::SOLID) || (BottomLeft->getType() == Tile::TileType::SOLID) && (BottomRight->getType() == Tile::TileType::SOLID))
+			if (BottomLeft == Tile::SOLID || BottomRight == Tile::SOLID)
 			{
+				isGrounded = true;
 				isFalling = false;
-				int TileUpperY = (BottomRightCorner.y / tilemap->getTileSize())*tilemap->getTileSize();
-				position.y = TileUpperY-cheight;
+				velocity.y = 0;
+				temp.y = (currCol + 1)*tilemap->getTileSize() - cheight;
+				PANICSTRING("Collided with Bottom")
 			}
-
 			else
 			{
-				position.y = dest.y;
+				
+				temp.y += velocity.y;
 			}
+
 		}
-		else
+
+		if (velocity.y < 0)
 		{
-			if ((!BottomLeft->getType() == Tile::TileType::SOLID) && (!BottomRight->getType() == Tile::TileType::SOLID))
+			if (TopLeft == Tile::SOLID || TopRight == Tile::SOLID)
 			{
-				isFalling = true;
-				position.y = dest.y;
+				velocity.y = 0;
+				temp.y = (currCol)*tilemap->getTileSize() + tilemap->getTileSize();
+				if (isJumping == true)
+				{
+					isFalling = true;
+					isJumping = false;
+					currentJumpingMovement = 0;
+				}
+			}
+			else
+			{
+				temp.y += velocity.y;
 			}
 		}
-		position.x += MovementSpeed;
+
+
+		getCornerTileValues(dest.x, position.y, TopLeft, TopRight, BottomLeft, BottomRight);
+
+		if (velocity.x > 0)
+		{
+			if (TopRight == Tile::SOLID)
+			{
+				velocity.x = 0;
+				temp.x = (currRow + 1)*tilemap->getTileSize() - cwidth;
+			}
+			else
+			{
+				temp.x += velocity.x;
+			}
+
+		}
+
+		if (velocity.x < 0)
+		{
+			if (TopLeft == Tile::SOLID)
+			{
+				PANICNUMBER(0)
+				velocity.x = 0;
+				temp.x = (currRow)*tilemap->getTileSize();
+			}
+			else
+			{
+				PANIC
+				temp.x += velocity.x;
+			}
+
+
+		}
+
+		
+		getCornerTileValues(position.x, position.y-1, TopLeft, TopRight, BottomLeft, BottomRight);
+
+		if (BottomLeft != Tile::SOLID&&BottomRight != Tile::SOLID&&!isJumping)
+		{
+			PANICSTRING("is falling")
+				isGrounded = false;
+
+		}
+	};
+	void getCornerTileValues(float positionX, float positionY, Tile::TileType &TopLeft, Tile::TileType &TopRight, Tile::TileType &BottomLeft, Tile::TileType &BottomRight)
+	{
+		int LeftX = (int)(position.x-1) / (int)tilemap->getTileSize();
+		int RightX = (int)(position.x + cwidth+1) / (int)tilemap->getTileSize();
+		int TopY = (int)(position.y) / (int)tilemap->getTileSize();
+		int BottomY = (int)(position.y + cheight+1) / (int)tilemap->getTileSize();
+
+		Tile *topLeft = tilemap->getTileFromTileCoordinates(LeftX, TopY);
+		Tile *topRight = tilemap->getTileFromTileCoordinates(RightX, TopY);
+		Tile *bottomLeft = tilemap->getTileFromTileCoordinates(LeftX, BottomY);
+		Tile *bottomRight = tilemap->getTileFromTileCoordinates(RightX, BottomY);
+		TopLeft = topLeft->getType();
+		TopRight = topRight->getType();
+		BottomLeft = bottomLeft->getType();
+		BottomRight = bottomRight->getType();
 	}
+	bool Jummping(){ return isJumping; };
+	bool Falling(){ return isFalling; };
+	bool Grounded(){ return isGrounded; };
 protected:
 	TileMap *tilemap;
     
 	//Position
 	sf::Vector2f position;
 	sf::Vector2f velocity;
+	sf::Vector2f temp;
 	//Movement
 	sf::Vector2f currentMovement;
 	float currentJumpingMovement;
@@ -80,5 +154,6 @@ protected:
 	//Boolean
 	bool isJumping;
 	bool isFalling;
+	bool isGrounded;
 };
 
