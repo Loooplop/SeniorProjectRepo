@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Screen.h"
 #include "MapEntity_Player.h"
+#include "MapEntity_Enemy.h"
 class Game;
 class GameLevelScreen :
 	public Screen
@@ -24,6 +25,7 @@ private:
 	Game *gamepointer;
 	TileMap tilemap;
 	MapEntity_Player player;
+	MapEntity_Enemy enemy;
 	sf::Text text;
 	sf::Font font;
 };

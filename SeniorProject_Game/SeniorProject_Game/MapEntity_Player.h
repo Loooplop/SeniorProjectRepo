@@ -1,5 +1,6 @@
 #pragma once
 #include "MapEntity_Base.h"
+#include "Animation.h"
 class MapEntity_Player :
 	public MapEntity_Base
 {
@@ -23,10 +24,12 @@ public:
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
 		{
 			velocity.x = -MovementSpeed;
+			animation.SetFlip(true);
 		}
 		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
 		{
 			velocity.x = MovementSpeed;
+			animation.SetFlip(false);
 		}
 		else
 		{
@@ -62,7 +65,7 @@ public:
 	}
 	void Update(sf::Time delta)
 	{
-		
+		animation.Update();
 		calculateNextPosition(delta);
 		CollisionWithTileMap();
 		position.x = temp.x;
@@ -70,14 +73,13 @@ public:
 	};
 	void Render(sf::RenderWindow &RenderTarget)
 	{
-		rect.setPosition(position);
-		RenderTarget.draw(rect);
+		animation.DrawFrame(RenderTarget, position);
 	};
 	sf::Vector2f getPosition()
 	{
 		return position;
 	}
-	sf::RectangleShape rect;
 	Animation animation;
+	sf::Texture aniTexture;
 };
 

@@ -4,11 +4,13 @@
 MapEntity_Player::MapEntity_Player()
 {
 	position = sf::Vector2f(700, 430);
-	rect.setSize(sf::Vector2f(10, 20));
-	rect.setFillColor(sf::Color::Black);
-	cwidth = 10;
-	cheight = 20;
-	gravityAcceleration = 8.0f;
+	aniTexture.loadFromFile("playersprites.png");
+	animation.SetTexture(&aniTexture,36,45);
+	cwidth = animation.FrameWidth();
+	PANICNUMBER(cwidth)
+	cheight = animation.FrameHeight();
+	animation.SetDelay(0.5f);
+	gravityAcceleration = 4.0f;
 	isFalling = true;
 	isJumping = false;
 	isGrounded = false;

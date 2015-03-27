@@ -16,7 +16,7 @@ public:
 	void Render(sf::RenderWindow &RenderTarget);
 	sf::Vector2f getCenter()
 	{
-		return sf::Vector2f(-1, -1);
+		return sf::Vector2f(400, 300);
 	}
 private:
 	Game *gamePointer;

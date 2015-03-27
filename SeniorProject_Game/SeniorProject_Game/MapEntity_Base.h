@@ -37,7 +37,7 @@ public:
 				isGrounded = true;
 				isFalling = false;
 				velocity.y = 0;
-				temp.y = (currCol + 1)*tilemap->getTileSize() - cheight;
+				temp.y = (currCol + 1)*tilemap->getTileSize()-cheight;
 				PANICSTRING("Collided with Bottom")
 			}
 			else
@@ -50,7 +50,7 @@ public:
 
 		if (velocity.y < 0)
 		{
-			if (TopLeft == Tile::SOLID || TopRight == Tile::SOLID)
+			if ((TopLeft == Tile::SOLID || TopRight == Tile::SOLID)&&(BottomLeft!=Tile::SOLID&&BottomRight!=Tile::SOLID))
 			{
 				velocity.y = 0;
 				temp.y = (currCol)*tilemap->getTileSize() + tilemap->getTileSize();
@@ -90,7 +90,7 @@ public:
 			{
 				PANICNUMBER(0)
 				velocity.x = 0;
-				temp.x = (currRow)*tilemap->getTileSize();
+				temp.x = (currRow)*tilemap->getTileSize()+tilemap->getTileSize();
 			}
 			else
 			{
@@ -113,10 +113,10 @@ public:
 	};
 	void getCornerTileValues(float positionX, float positionY, Tile::TileType &TopLeft, Tile::TileType &TopRight, Tile::TileType &BottomLeft, Tile::TileType &BottomRight)
 	{
-		int LeftX = (int)(position.x-1) / (int)tilemap->getTileSize();
+		int LeftX = (int)(position.x) / (int)tilemap->getTileSize();
 		int RightX = (int)(position.x + cwidth+1) / (int)tilemap->getTileSize();
 		int TopY = (int)(position.y) / (int)tilemap->getTileSize();
-		int BottomY = (int)(position.y + cheight+1) / (int)tilemap->getTileSize();
+		int BottomY = (int)(position.y + cheight) / (int)tilemap->getTileSize();
 
 		Tile *topLeft = tilemap->getTileFromTileCoordinates(LeftX, TopY);
 		Tile *topRight = tilemap->getTileFromTileCoordinates(RightX, TopY);

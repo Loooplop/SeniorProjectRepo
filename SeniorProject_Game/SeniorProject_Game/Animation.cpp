@@ -3,6 +3,8 @@
 
 Animation::Animation()
 {
+	isFlipped = false;
+	PlayedOnce = false;
 }
 
 

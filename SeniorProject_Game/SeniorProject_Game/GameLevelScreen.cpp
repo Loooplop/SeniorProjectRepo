@@ -11,6 +11,7 @@ GameLevelScreen::GameLevelScreen(Game *pointer)
 	tilemap.LoadTileSet(50, "NewTileSet.png", "TileSet1Prop.tl");
 	tilemap.LoadMapData("NewMarioFixed1.txt");
 	player.setTileMap(&tilemap);
+	enemy.setTileMap(&tilemap);
 	assert(font.loadFromFile("Blazed.ttf") == true);
 	text.setFont(font);
 	text.setScale(0.1,0.1);
@@ -32,6 +33,8 @@ void GameLevelScreen::handleInput(sf::Keyboard::Key key, bool IsPressed)
 void GameLevelScreen::Update(sf::Time delta)
 {
 	player.handleRealtimeInput();
+	enemy.handleRealtimeInput();
+	enemy.Update(delta);
 	player.Update(delta);
 };
 void GameLevelScreen::Render(sf::RenderWindow &RenderTarget)
@@ -39,6 +42,7 @@ void GameLevelScreen::Render(sf::RenderWindow &RenderTarget)
 	RenderTarget.clear();
 	tilemap.Draw(RenderTarget);
 	player.Render(RenderTarget);
+	enemy.Render(RenderTarget);
 	text.setPosition(player.getPosition()+sf::Vector2f(0,-10));
 	text.setString(std::to_string(((int)player.getPosition().x)/tilemap.getTileSize()));
 	RenderTarget.draw(text);
