@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "MainMenuScreen.h"
 #include "GameLevelScreen.h"
+#include "HelpScreen.h"
 #include <iostream>
 Game::~Game()
 {
@@ -57,6 +58,10 @@ void Game::run()
 		case GameScreen:
 			std::cout << "Switching to Game Screen" << std::endl;
 			currentScreen = new GameLevelScreen(this);
+			break;
+		case HelpInfoScreen:
+			std::cout << "Switching to Help Screen" << std::endl;
+			currentScreen = new HelpScreen(this);
 			break;
 		}
 	};

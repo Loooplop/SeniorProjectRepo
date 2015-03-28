@@ -38,7 +38,6 @@ public:
 				isFalling = false;
 				velocity.y = 0;
 				temp.y = (currCol + 1)*tilemap->getTileSize()-cheight;
-				PANICSTRING("Collided with Bottom")
 			}
 			else
 			{
@@ -88,13 +87,11 @@ public:
 		{
 			if (TopLeft == Tile::SOLID)
 			{
-				PANICNUMBER(0)
 				velocity.x = 0;
 				temp.x = (currRow)*tilemap->getTileSize()+tilemap->getTileSize();
 			}
 			else
 			{
-				PANIC
 				temp.x += velocity.x;
 			}
 
@@ -106,9 +103,7 @@ public:
 
 		if (BottomLeft != Tile::SOLID&&BottomRight != Tile::SOLID&&!isJumping)
 		{
-			PANICSTRING("is falling")
 				isGrounded = false;
-
 		}
 	};
 	void getCornerTileValues(float positionX, float positionY, Tile::TileType &TopLeft, Tile::TileType &TopRight, Tile::TileType &BottomLeft, Tile::TileType &BottomRight)

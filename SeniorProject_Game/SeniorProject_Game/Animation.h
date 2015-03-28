@@ -11,7 +11,6 @@ public:
 	{
 		texture = tex;
 		MaxFrames=-1+texture->getSize().x / width;
-		std::cout << MaxFrames << "Max FRAMES" << std::endl;
 		widthOfFrame = CollisionWidth= width;
 		heightOfFrame = CollisionHeight=height;
 		frame.setTexture(*texture);

@@ -28,7 +28,8 @@ MapEntity_Player::MapEntity_Player()
 
 	aniTextureAttacking.loadFromFile("playerAttackingAnimation.png");
 	animationAttacking.SetTexture(&aniTextureAttacking, 45, 45);
-	animationAttacking.SetDelay(2.0f);
+	animationAttacking.SetCollisionManually(36, 45);
+	animationAttacking.SetDelay(0.3f);
 
 
 	currentanimation = &animationIdle;

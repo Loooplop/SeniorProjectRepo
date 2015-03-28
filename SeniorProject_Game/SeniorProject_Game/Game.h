@@ -4,6 +4,7 @@
 #include "Screen.h"
 #define TitleScreen 0
 #define GameScreen 1
+#define HelpInfoScreen 2
 class Game
 {
 public:

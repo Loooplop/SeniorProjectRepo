@@ -18,12 +18,13 @@ public:
 			}
 		}
 		
-		if (key == sf::Keyboard::T && isPressed == false)
+		if (key == sf::Keyboard::T && isPressed == true)
 		{
 			if (isAttacking==false)
 			{
 				isAttacking = true;
 				animationAttacking.SetFlip(currentanimation->FlipFlag());
+				animationAttacking.Reset();
 				currentanimation = &animationAttacking;
 				cwidth = currentanimation->CollisionX();
 				cheight = currentanimation->CollisionY();
@@ -52,21 +53,19 @@ public:
 				cheight = currentanimation->CollisionY();
 				currentanimation->SetFlip(false);
 			}
-			else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			else
 			{
 				if (isAttacking)
 				{
+					
 					if (currentanimation->hasPlayedOnce())
 					{
+						PANICSTRING("Player is Attacking")
 						animationAttacking.Reset();
 						currentanimation = &animationIdle;
 						cwidth = currentanimation->CollisionX();
 						cheight = currentanimation->CollisionY();
 						isAttacking = false;
-					}
-					else
-					{
-
 					}
 				}
 				else
@@ -122,6 +121,12 @@ public:
 	{
 		return position;
 	}
+	bool AttackingFlag()
+	{
+		return isAttacking;
+	}
+
+	private:
 	bool isAttacking;
 	Animation *currentanimation;
 	Animation animationIdle;

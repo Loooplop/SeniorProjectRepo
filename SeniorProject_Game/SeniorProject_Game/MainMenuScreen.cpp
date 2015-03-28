@@ -13,7 +13,7 @@ MainMenuScreen::MainMenuScreen(Game* pointer)
 
 	MenuTexts = new std::string[AmountOfChoices];
 	MenuTexts[0] = "Start";
-	MenuTexts[1] = "Help";
+	MenuTexts[1] = "Controls";
 	MenuTexts[2] = "Exit";
 
 	CurrentChoice = 0;
@@ -26,7 +26,7 @@ MainMenuScreen::MainMenuScreen()
 
 	MenuTexts = new std::string[AmountOfChoices];
 	MenuTexts[0] = "Start";
-	MenuTexts[1] = "Help";
+	MenuTexts[1] = "Controls";
 	MenuTexts[2] = "Exit";
 
 	CurrentChoice = 0;
@@ -59,10 +59,12 @@ void MainMenuScreen::handleInput(sf::Keyboard::Key key, bool IsPressed)
 	{
 		switch (CurrentChoice)
 		{
-		case 1:
+		case 0:
 			gamePointer->SetScreen(GameScreen);
 			break;
-
+		case 1:
+			gamePointer->SetScreen(HelpInfoScreen);
+			break;
 		case 2:
 			gamePointer->getWindow()->close();
 			break;
@@ -93,7 +95,7 @@ void MainMenuScreen::Render(sf::RenderWindow &RenderTarget)
 		}
 
 		text.setString(MenuTexts[i]);
-		text.setPosition(-180 + gamePointer->getWindow()->getSize().x / 2, i * 120);
+		text.setPosition(-220 + gamePointer->getWindow()->getSize().x / 2, 50+(i * 120));
 		RenderTarget.draw(text);
 
 	}

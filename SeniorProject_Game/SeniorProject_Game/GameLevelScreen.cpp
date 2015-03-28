@@ -52,7 +52,10 @@ void GameLevelScreen::Update(sf::Time delta)
 	{
 		if (player.IntersectsAnotherMapEntity(enemies[i]))
 		{
-			enemies[i]->SetRemovalFlag(true);
+			if (player.AttackingFlag() == true)
+			{
+				enemies[i]->SetRemovalFlag(true);
+			};
 		}
 	}
 
@@ -78,28 +81,12 @@ void GameLevelScreen::Render(sf::RenderWindow &RenderTarget)
 	{
 		enemies[i]->Render(RenderTarget);
 	}
-	text.setPosition(player.getPosition()+sf::Vector2f(0,-10));
-	text.setString(std::to_string(((int)player.getPosition().x)/tilemap.getTileSize()));
-	RenderTarget.draw(text);
-
-
-	text.setString(std::string("Player is Grounded: ")+std::to_string(player.Grounded()));
-	text.setPosition(player.getPosition() + sf::Vector2f(0, -50));
-	RenderTarget.draw(text);
-
-	text.setString(std::string("Player is Falling: ") + std::to_string(player.Falling()));
-	text.setPosition(player.getPosition() + sf::Vector2f(0, -60));
-	RenderTarget.draw(text);
-	text.setString(std::string("Player is Jumping: ") + std::to_string(player.Jummping()));
-	text.setPosition(player.getPosition() + sf::Vector2f(0, -70));
-	RenderTarget.draw(text);
-
 	RenderTarget.display();
 
 
 };
 void GameLevelScreen::addEnemy()
 {
-	enemies.push_back(new MapEntity_Enemy("EnemyAnimation.png",&tilemap,25+rand()%800,0));
+	enemies.push_back(new MapEntity_Enemy("EnemyAnimation.png",&tilemap,25+rand()%900,0));
 
 }
