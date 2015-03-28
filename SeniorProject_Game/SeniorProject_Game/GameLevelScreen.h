@@ -12,6 +12,7 @@ public:
 	GameLevelScreen(Game *pointer);
 	~GameLevelScreen();
 
+	void addEnemy();
 	void handleInput(sf::Keyboard::Key key, bool IsPressed);
 	void Update(sf::Time delta);
 	void Render(sf::RenderWindow &RenderTarget);
@@ -22,10 +23,10 @@ public:
 	 
 
 private:
+	std::vector<MapEntity_Enemy*> enemies;
 	Game *gamepointer;
 	TileMap tilemap;
 	MapEntity_Player player;
-	MapEntity_Enemy enemy;
 	sf::Text text;
 	sf::Font font;
 };

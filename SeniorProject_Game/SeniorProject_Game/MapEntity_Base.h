@@ -127,6 +127,12 @@ public:
 		BottomLeft = bottomLeft->getType();
 		BottomRight = bottomRight->getType();
 	}
+
+	bool IntersectsAnotherMapEntity(MapEntity_Base *other)
+	{
+		sf::FloatRect thisRect(position.x, position.y, cwidth, cheight);
+		return thisRect.intersects(sf::FloatRect(other->position.x, other->position.y, other->cwidth, other->cheight));
+	}
 	bool Jummping(){ return isJumping; };
 	bool Falling(){ return isFalling; };
 	bool Grounded(){ return isGrounded; };

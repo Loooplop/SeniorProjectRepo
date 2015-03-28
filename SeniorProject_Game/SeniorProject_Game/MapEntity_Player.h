@@ -18,23 +18,66 @@ public:
 			}
 		}
 		
+		if (key == sf::Keyboard::T && isPressed == false)
+		{
+			if (isAttacking==false)
+			{
+				isAttacking = true;
+				animationAttacking.SetFlip(currentanimation->FlipFlag());
+				currentanimation = &animationAttacking;
+				cwidth = currentanimation->CollisionX();
+				cheight = currentanimation->CollisionY();
+			}
+
+		}
+
+
+		
 	};
 	void handleRealtimeInput()
 	{
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		{
-			velocity.x = -MovementSpeed;
-			animation.SetFlip(true);
-		}
-		else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		{
-			velocity.x = MovementSpeed;
-			animation.SetFlip(false);
-		}
-		else
-		{
-			velocity.x = 0;
-		}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)&&!isAttacking)
+			{
+				velocity.x = -MovementSpeed;
+				currentanimation = &animationWalking;
+				cwidth = currentanimation->CollisionX();
+				cheight = currentanimation->CollisionY();
+				currentanimation->SetFlip(true);
+			}
+			else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !isAttacking)
+			{
+				velocity.x = MovementSpeed;
+				currentanimation = &animationWalking;
+				cwidth = currentanimation->CollisionX();
+				cheight = currentanimation->CollisionY();
+				currentanimation->SetFlip(false);
+			}
+			else if (!sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+			{
+				if (isAttacking)
+				{
+					if (currentanimation->hasPlayedOnce())
+					{
+						animationAttacking.Reset();
+						currentanimation = &animationIdle;
+						cwidth = currentanimation->CollisionX();
+						cheight = currentanimation->CollisionY();
+						isAttacking = false;
+					}
+					else
+					{
+
+					}
+				}
+				else
+				{
+					animationIdle.SetFlip(currentanimation->FlipFlag());
+					currentanimation = &animationIdle;
+					cwidth = currentanimation->CollisionX();
+					cheight = currentanimation->CollisionY();
+				}
+				velocity.x = 0;
+			}
 	}
 	void calculateNextPosition(sf::Time delta)
 	{
@@ -65,7 +108,7 @@ public:
 	}
 	void Update(sf::Time delta)
 	{
-		animation.Update();
+		currentanimation->Update();
 		calculateNextPosition(delta);
 		CollisionWithTileMap();
 		position.x = temp.x;
@@ -73,13 +116,19 @@ public:
 	};
 	void Render(sf::RenderWindow &RenderTarget)
 	{
-		animation.DrawFrame(RenderTarget, position);
+		currentanimation->DrawFrame(RenderTarget, position);
 	};
 	sf::Vector2f getPosition()
 	{
 		return position;
 	}
-	Animation animation;
-	sf::Texture aniTexture;
+	bool isAttacking;
+	Animation *currentanimation;
+	Animation animationIdle;
+	Animation animationWalking;
+	Animation animationAttacking;
+	sf::Texture aniTextureIdle;
+	sf::Texture aniTextureWalking;
+	sf::Texture aniTextureAttacking;
 };
 

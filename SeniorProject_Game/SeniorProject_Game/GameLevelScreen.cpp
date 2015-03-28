@@ -11,7 +11,7 @@ GameLevelScreen::GameLevelScreen(Game *pointer)
 	tilemap.LoadTileSet(50, "NewTileSet.png", "TileSet1Prop.tl");
 	tilemap.LoadMapData("NewMarioFixed1.txt");
 	player.setTileMap(&tilemap);
-	enemy.setTileMap(&tilemap);
+	addEnemy();
 	assert(font.loadFromFile("Blazed.ttf") == true);
 	text.setFont(font);
 	text.setScale(0.1,0.1);
@@ -28,21 +28,56 @@ void GameLevelScreen::handleInput(sf::Keyboard::Key key, bool IsPressed)
 	{
 		gamepointer->SetScreen(TitleScreen);
 	}
+	if (key == sf::Keyboard::I&&!IsPressed)
+	{
+		addEnemy();
+	}
 	player.handleEventInput(key, IsPressed);
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		enemies[i]->handleEventInput(key, IsPressed);
+	}
 };
 void GameLevelScreen::Update(sf::Time delta)
 {
 	player.handleRealtimeInput();
-	enemy.handleRealtimeInput();
-	enemy.Update(delta);
 	player.Update(delta);
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		enemies[i]->handleRealtimeInput();
+		enemies[i]->Update(delta);
+	}
+
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		if (player.IntersectsAnotherMapEntity(enemies[i]))
+		{
+			enemies[i]->SetRemovalFlag(true);
+		}
+	}
+
+
+	if (enemies.size() != 0)
+	{
+		for (int i = enemies.size() - 1; i >= 0; i--)
+		{
+			if (enemies[i]->NeedRemoval() == true)
+			{
+				enemies.erase(enemies.begin() + i);
+			}
+		}
+	}
+	
 };
 void GameLevelScreen::Render(sf::RenderWindow &RenderTarget)
 {
 	RenderTarget.clear();
 	tilemap.Draw(RenderTarget);
 	player.Render(RenderTarget);
-	enemy.Render(RenderTarget);
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		enemies[i]->Render(RenderTarget);
+	}
 	text.setPosition(player.getPosition()+sf::Vector2f(0,-10));
 	text.setString(std::to_string(((int)player.getPosition().x)/tilemap.getTileSize()));
 	RenderTarget.draw(text);
@@ -60,4 +95,11 @@ void GameLevelScreen::Render(sf::RenderWindow &RenderTarget)
 	RenderTarget.draw(text);
 
 	RenderTarget.display();
+
+
 };
+void GameLevelScreen::addEnemy()
+{
+	enemies.push_back(new MapEntity_Enemy("EnemyAnimation.png",&tilemap,25+rand()%800,0));
+
+}
