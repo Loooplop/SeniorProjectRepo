@@ -118,6 +118,7 @@ public:
 	{
 		toBeRemoved = flag;
 	}
+	private:
 	sf::Texture tex;
 	Animation animation;
 	bool MovingRight;
