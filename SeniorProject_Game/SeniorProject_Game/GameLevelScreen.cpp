@@ -32,10 +32,6 @@ void GameLevelScreen::handleInput(sf::Keyboard::Key key, bool IsPressed)
 	{
 		addEnemy();
 	}
-	if (key == sf::Keyboard::Y&&!IsPressed)
-	{
-		addFireBall();
-	}
 
 	player.handleEventInput(key, IsPressed);
 	for (int i = 0; i < enemies.size(); i++)
@@ -52,29 +48,6 @@ void GameLevelScreen::Update(sf::Time delta)
 		enemies[i]->handleRealtimeInput();
 		enemies[i]->Update(delta);
 	}
-	for (int i = 0; i < proj.size(); i++)
-	{
-		proj[i]->handleRealtimeInput();
-		proj[i]->Update(delta);
-	}
-
-	for (int i = 0; i < proj.size(); i++)
-	{
-		if (!proj[i]->ProjectileHasCollided())
-		{
-			for (int j = 0; j < enemies.size(); j++)
-			{
-				if (!enemies[j]->NeedRemoval())
-					if (proj[i]->IntersectsAnotherMapEntity(enemies[j]))
-					{
-
-						enemies[j]->SetRemovalFlag(true);
-						proj[i]->setHit(true);
-					}
-
-			}
-		}
-	}
 
 
 
@@ -88,18 +61,10 @@ void GameLevelScreen::Update(sf::Time delta)
 			};
 		}
 	}
-
-	if (proj.size() != 0)
+	for (int i = 0; i < enemies.size(); i++)
 	{
-		for (int i = proj.size() - 1; i >= 0; i--)
-		{
-			if (proj[i]->NeedRemoval() == true)
-			{
-				proj.erase(proj.begin() + i);
-			}
-		}
+		player.PlayerProjectileCollisionWithOtherMapEntity(enemies[i]);
 	}
-
 	if (enemies.size() != 0)
 	{
 		for (int i = enemies.size() - 1; i >= 0; i--)
@@ -121,10 +86,6 @@ void GameLevelScreen::Render(sf::RenderWindow &RenderTarget)
 	{
 		enemies[i]->Render(RenderTarget);
 	}
-	for (int i = 0; i < proj.size(); i++)
-	{
-		proj[i]->Render(RenderTarget);
-	}
 	RenderTarget.display();
 
 
@@ -132,10 +93,4 @@ void GameLevelScreen::Render(sf::RenderWindow &RenderTarget)
 void GameLevelScreen::addEnemy()
 {
 	enemies.push_back(new MapEntity_Enemy("EnemyAnimation.png",&tilemap,25+rand()%900,0));
-
-}
-void GameLevelScreen::addFireBall()
-{
-	proj.push_back(new MapEntity_Projectile_Base("FireballTravel.png", "FireballHit.png", &tilemap, player.getPosition().x, player.getPosition().y, 5.0f, 1, 0.0f));
-
 }

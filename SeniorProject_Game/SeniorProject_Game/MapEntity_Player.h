@@ -1,5 +1,7 @@
 #pragma once
 #include "MapEntity_Base.h"
+#include "MapEntity_Enemy.h"
+#include "MapEntity_Projectile_Base.h"
 #include "Animation.h"
 class MapEntity_Player :
 	public MapEntity_Base
@@ -31,7 +33,18 @@ public:
 			}
 
 		}
+		if (key == sf::Keyboard::Y && isPressed == true)
+		{
 
+			if (currentanimation->FlipFlag())
+			{
+				fireballs.push_back(new MapEntity_Projectile_Base("FireballTravel.png", "FireballHit.png", tilemap, getPosition().x, getPosition().y + 0.25*cheight, 5.0f, -1, 0.0f));
+			}
+			else
+			{
+				fireballs.push_back(new MapEntity_Projectile_Base("FireballTravel.png", "FireballHit.png", tilemap, getPosition().x + 0.75f*cwidth, getPosition().y + 0.25*cheight, 5.0f, 1, 0.0f));
+			}
+		}
 
 		
 	};
@@ -107,15 +120,53 @@ public:
 	}
 	void Update(sf::Time delta)
 	{
+		if (fireballs.size() != 0)
+		{
+			for (int i = fireballs.size() - 1; i >= 0; i--)
+			{
+				if (fireballs[i]->NeedRemoval() == true)
+				{
+					fireballs.erase(fireballs.begin() + i);
+				}
+			}
+		}
+
 		currentanimation->Update();
 		calculateNextPosition(delta);
 		CollisionWithTileMap();
 		position.x = temp.x;
 		position.y = temp.y;
+		for (int i = 0; i < fireballs.size(); i++)
+		{
+			fireballs[i]->Update(delta);
+		}
 	};
+	bool PlayerProjectileCollisionWithOtherMapEntity(MapEntity_Enemy *other)
+	{
+		if (other->NeedRemoval())
+			return false;
+
+		for (int i = 0; i < fireballs.size(); i++)
+		{
+			if (fireballs[i]->IntersectsAnotherMapEntity(other)&&fireballs[i]->NeedRemoval()==false)
+			{
+				fireballs[i]->setHit(true);
+				other->SetRemovalFlag(true);
+				return true;
+			}
+
+
+		}
+		return false;
+
+	}
 	void Render(sf::RenderWindow &RenderTarget)
 	{
 		currentanimation->DrawFrame(RenderTarget, position);
+		for (int i = 0; i < fireballs.size(); i++)
+		{
+			fireballs[i]->Render(RenderTarget);
+		}
 	};
 	sf::Vector2f getPosition()
 	{
@@ -135,5 +186,6 @@ public:
 	sf::Texture aniTextureIdle;
 	sf::Texture aniTextureWalking;
 	sf::Texture aniTextureAttacking;
+	std::vector<MapEntity_Projectile_Base*> fireballs;
 };
 

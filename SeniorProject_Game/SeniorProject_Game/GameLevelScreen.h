@@ -25,8 +25,6 @@ public:
 	 
 
 private:
-	MapEntity_Projectile_Base *fireball;
-	std::vector<MapEntity_Projectile_Base*> proj;
 	std::vector<MapEntity_Enemy*> enemies;
 	Game *gamepointer;
 	TileMap tilemap;

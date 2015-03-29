@@ -82,7 +82,7 @@ void MainMenuScreen::Render(sf::RenderWindow &RenderTarget)
 {
 	RenderTarget.clear();
 
-
+	text.setScale(3, 3);
 	for (int i = 0; i < AmountOfChoices;i++)
 	{
 		if (i == CurrentChoice)
@@ -99,7 +99,11 @@ void MainMenuScreen::Render(sf::RenderWindow &RenderTarget)
 		RenderTarget.draw(text);
 
 	}
-
+	text.setScale(0.75f, 0.75f);
+	text.setColor(sf::Color::White);
+	text.setString("Stick Brawl @ William Chantrill Paul");
+	text.setPosition(210, 575);
+	RenderTarget.draw(text);
 	RenderTarget.display();
 
 }
