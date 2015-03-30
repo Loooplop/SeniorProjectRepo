@@ -16,6 +16,9 @@ GameLevelScreen::GameLevelScreen(Game *pointer)
 	text.setFont(font);
 	text.setScale(0.1,0.1);
 	text.setColor(sf::Color::Black);
+	gameLevelMusic.openFromFile("Level1BackgroundMusic.wav");
+	gameLevelMusic.setLoop(true);
+	gameLevelMusic.play();
 };
 
 GameLevelScreen::~GameLevelScreen()
@@ -27,6 +30,7 @@ void GameLevelScreen::handleInput(sf::Keyboard::Key key, bool IsPressed)
 	if (key == sf::Keyboard::Tab)
 	{
 		gamepointer->SetScreen(TitleScreen);
+		gameLevelMusic.stop();
 	}
 	if (key == sf::Keyboard::I&&!IsPressed)
 	{

@@ -1,4 +1,5 @@
 #pragma once
+#include "SFML\Audio.hpp"
 #include "MapEntity_Base.h"
 #include "MapEntity_Enemy.h"
 #include "MapEntity_Projectile_Base.h"
@@ -15,6 +16,7 @@ public:
 		{
 			if (!isJumping&&isGrounded)
 			{
+				JumpSound.play();
 				isJumping = true;
 				currentJumpingMovement = initialJumpImpulse;
 			}
@@ -22,8 +24,9 @@ public:
 		
 		if (key == sf::Keyboard::T && isPressed == true)
 		{
-			if (isAttacking==false)
+			if (isAttacking == false && isGrounded == true)
 			{
+				AttackSound.play();
 				isAttacking = true;
 				animationAttacking.SetFlip(currentanimation->FlipFlag());
 				animationAttacking.Reset();
@@ -36,13 +39,18 @@ public:
 		if (key == sf::Keyboard::Y && isPressed == true)
 		{
 
-			if (currentanimation->FlipFlag())
+			if (fireBallShot < maxFireballs)
 			{
-				fireballs.push_back(new MapEntity_Projectile_Base("FireballTravel.png", "FireballHit.png", tilemap, getPosition().x, getPosition().y + 0.25*cheight, 5.0f, -1, 0.0f));
-			}
-			else
-			{
-				fireballs.push_back(new MapEntity_Projectile_Base("FireballTravel.png", "FireballHit.png", tilemap, getPosition().x + 0.75f*cwidth, getPosition().y + 0.25*cheight, 5.0f, 1, 0.0f));
+				ExplosionSound.play();
+				if (currentanimation->FlipFlag())
+				{
+					fireballs.push_back(new MapEntity_Projectile_Base("FireballTravel.png", "FireballHit.png", tilemap, getPosition().x, getPosition().y + 0.25*cheight, 5.0f, -1, 0.0f));
+				}
+				else
+				{
+					fireballs.push_back(new MapEntity_Projectile_Base("FireballTravel.png", "FireballHit.png", tilemap, getPosition().x + 0.75f*cwidth, getPosition().y + 0.25*cheight, 5.0f, 1, 0.0f));
+				}
+				fireBallShot++;
 			}
 		}
 
@@ -178,6 +186,9 @@ public:
 	}
 
 	private:
+
+	int maxFireballs;
+	int fireBallShot;
 	bool isAttacking;
 	Animation *currentanimation;
 	Animation animationIdle;
@@ -187,5 +198,11 @@ public:
 	sf::Texture aniTextureWalking;
 	sf::Texture aniTextureAttacking;
 	std::vector<MapEntity_Projectile_Base*> fireballs;
+	sf::SoundBuffer JumpSoundData;
+	sf::Sound JumpSound;
+	sf::SoundBuffer ExplosionSoundData;
+	sf::Sound ExplosionSound;
+	sf::SoundBuffer AttackSoundData;
+	sf::Sound AttackSound;
 };
 

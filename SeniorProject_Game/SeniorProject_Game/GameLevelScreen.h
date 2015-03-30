@@ -31,5 +31,7 @@ private:
 	MapEntity_Player player;
 	sf::Text text;
 	sf::Font font;
+	sf::Music gameLevelMusic;
+	
 };
 

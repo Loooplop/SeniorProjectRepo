@@ -14,7 +14,8 @@ MapEntity_Player::MapEntity_Player()
 	JumpSlowingSpeed = 1.8f;
 	MaximumSpeed = 20.0f;
 	MovementSpeed = 6.0f;
-
+	maxFireballs = 5;
+	fireBallShot = 0;
 
 
 
@@ -36,8 +37,17 @@ MapEntity_Player::MapEntity_Player()
 	cwidth = currentanimation->CollisionX();
 	cheight = currentanimation->CollisionY();
 	
-	
+	JumpSoundData.loadFromFile("Jump.wav");
+	JumpSound.setBuffer(JumpSoundData);
+	JumpSound.setLoop(false);
 
+	ExplosionSoundData.loadFromFile("Explosion.wav");
+	ExplosionSound.setBuffer(ExplosionSoundData);
+	ExplosionSound.setLoop(false);
+
+	AttackSoundData.loadFromFile("Attack.ogg");
+	AttackSound.setBuffer(AttackSoundData);
+	AttackSound.setLoop(false);
 }
 
 
